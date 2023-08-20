@@ -7,26 +7,51 @@ library(forcats)
 
 
 ui <- fluidPage(theme = shinytheme("superhero"),
-                #[code omitted]
-                tags$figure(
-                  align = "left",
-                  tags$img(
-                    src = "logo.jpg",
-                    width = 70,
-                    height = 70,
-                    alt = "My Logo"
-                  ),
-                ),
-                #[code omitted]
-                #[code omitted]
-
+                
+                tags$section(
+                  tags$div(
+                        tags$span(  tags$h2("DataWizard"), style="text-align:center;color: #336600"),
+                        tags$span(
+                              tags$figure(
+                                    
+                                    tags$img(
+                                        src = "logo2.png",
+                                        width = 50,
+                                        height = 60,
+                                        alt = "My Logo",
+                                        ),
+                                    style = "padding-left=20px;"
+                                    ),
+                              style = "padding-left=20px;"
+                                ),
+                        style = "display:flex;justify-content: center;"
+                      ),
+                
+              #For Css
+                tags$head(
+                  tags$link(rel = "stylesheet", type = "text/css", href = "app.css"),
+                  tags$style(
+                  HTML('
+                    body, label, input, button, select { 
+                                font-family: "Timesnewroman";
+                                font-size: 16px;
+                          }
+                      ')
+                )),
+              
+                
+               
+               
+            
                 sidebarLayout(
                   #[code omitted]
 
 
                   sidebarPanel(
-                    
+                    id = "sidebar1",
                     #for custom inputting file
+                    
+                    
                     fileInput("file1", "Choose CSV File",
                               accept = c(
                                 "text/csv",
@@ -37,6 +62,7 @@ ui <- fluidPage(theme = shinytheme("superhero"),
                     checkboxInput("header", "Header", TRUE)
                   ),
                   sidebarPanel(
+                    id = "sidebar2",
                     HTML("<h3>Input parameters</h3>"),
                     #for dropdown Box
                     selectInput("Plot", label = "Type of Plot : ",
@@ -44,18 +70,25 @@ ui <- fluidPage(theme = shinytheme("superhero"),
                                                "Histogram" = "Histogram", "BarPlot" = "BarPlot", "LinePlot" = "LinePlot","PieChart" = "PieChart"),
                                 selected = "ScatterPlot"),
                     #side by side textboxes using css
-                    tags$div(textInput("txt1", "Parameter 1 :","NULL"),  style="display:inline-block"),
-                    tags$div(textInput("txt2", "Parameter 2 :","NULL"),  style="display:inline-block"),
+                    tags$div(
+                      tags$span(textInput("txt1", "Parameter 1 :","NULL"), style="padding-right:2rem"),
+                      tags$span(textInput("txt2", "Parameter 2 :","NULL")), 
+                      style="display:flex"),
+                   
+                    #tags$div(textInput("txt2", "Parameter 2 :","NULL"),  style="display:grid"),
                     
                     #For ScatterPlot Necessary inputs
                     conditionalPanel(
                       condition = "input.Plot == 'ScatterPlot'",
-                      tags$div(textInput("S_title", "title of graph"), style="display:inline-block"),
-                      tags$div(textInput("S_X_a", "lable of x axis"), style="display:inline-block"),
-                      tags$div(textInput("S_Y_a", "lable of y axis"), style="display:inline-block"),
-                      tags$div(numericInput("S_Size", "Size",13,min=1,max=15),style="display:inline-block"),
-                      tags$div(textInput("S_Color", "Color",'blue'), style="display:inline-block")
-                      
+                      tags$div(textInput("S_title", "title of graph"), style="display:block"),
+                      tags$div(
+                        tags$span(textInput("S_X_a", "lable of x axis"), style="padding-right:2rem"),
+                      tags$span(textInput("S_Y_a", "lable of y axis"), style="padding-right:2rem"),
+                      style="display:flex"),
+                      tags$div(
+                        tags$span(numericInput("S_Size", "Size",13,min=1,max=15),style="padding-right:2rem"),
+                      tags$div(textInput("S_Color", "Color",'blue'), style="padding-right:2rem"),
+                      style="display:flex"),
                     ),
                     
                     #For ScatterPlot_2
@@ -71,34 +104,50 @@ ui <- fluidPage(theme = shinytheme("superhero"),
                     #For Histogram
                     conditionalPanel(
                       condition = "input.Plot == 'Histogram'",
-                      tags$div(textInput("title", "title of graph"), style="display:inline-block"),
-                      tags$div(textInput("X_a", "lable of x axis"), style="display:inline-block"),
-                      tags$div(textInput("Y_a", "lable of y axis"), style="display:inline-block"),
-                      tags$div(numericInput("nb", "No.of Bins",10,min=1,max=60),style="display:inline-block"),
-                      tags$div(textInput("Color", "Color",'blue'), style="display:inline-block"),
-                      tags$div(textInput("B_Fill", "Fill",'blue'), style="display:inline-block")
-                      
+                      tags$div(textInput("title", "title of graph"), style="display:block"),
+                      tags$div(
+                        tags$span(textInput("X_a", "lable of x axis"), style="padding-right:2rem"),
+                      tags$span(textInput("Y_a", "lable of y axis"), style="padding-right:2rem"),
+                      style="display:flex"),
+                      tags$div(
+                        tags$span(numericInput("nb", "No.of Bins",10,min=1,max=60),style="padding-right:2rem"),
+                      tags$span(textInput("Color", "Color",'blue'), style="padding-right:2rem"),
+                      tags$span(textInput("B_Fill", "Fill",'blue'), style="padding-right:2rem"),
+                      style="display:flex"
+                      )
                     ),
                     
                     #For BarPlot
                     conditionalPanel(
                       condition = "input.Plot == 'BarPlot'",
                       tags$div(textInput("B_title", "title of graph"), style="display:inline-block"),
-                      tags$div(textInput("B_X_a", "lable of x axis"), style="display:inline-block"),
-                      tags$div(textInput("B_Y_a", "lable of y axis"), style="display:inline-block"),
-                      tags$div(textInput("B_Color", "Border Color",'blue'), style="display:inline-block"),
-                      tags$div(textInput("B_Fill", "Fill",'blue'), style="display:inline-block")
+                      tags$div(
+                        tags$span(textInput("B_X_a", "lable of x axis"), style="padding-right:2rem"),
+                      tags$span(textInput("B_Y_a", "lable of y axis"), style="padding-right:2rem"),
+                      style="display:flex"
+                      ),
+                      tags$div(
+                        tags$span(textInput("B_Color", "Border Color",'blue'), style="padding-right:2rem"),
+                      tags$div(textInput("B_Fill", "Fill",'blue'), style="padding-right:2rem"),
+                      style="display:flex"
+                    )
                     ),
                     
                     #For LinePlot
                     conditionalPanel(
                       condition = "input.Plot == 'LinePlot'",
                       tags$div(textInput("L_title", "title of graph"), style="display:inline-block"),
-                      tags$div(textInput("L_X_a", "lable of x axis"), style="display:inline-block"),
-                      tags$div(textInput("L_Y_a", "lable of y axis"), style="display:inline-block"),
-                      tags$div(textInput("L_Color", "Line Color",'black'), style="display:inline-block"),
-                      tags$div(textInput("L_Type", "Line Type" , "solid"), style="display:inline-block"),
-                      tags$div(numericInput("L_Size", "Size",1,min=1,max=25),style="display:inline-block")                
+                      tags$div(
+                        tags$span(textInput("L_X_a", "lable of x axis"), style="padding-right:2rem"),
+                      tags$div(textInput("L_Y_a", "lable of y axis"), style="padding-right:2rem"),
+                      style="display:flex"
+                    ),
+                      tags$div(
+                        tags$span(textInput("L_Color", "Line Color",'black'), style="padding-right:2rem"),
+                      tags$div(textInput("L_Type", "Line Type" , "solid"), style="padding-right:2rem"),
+                      tags$div(numericInput("L_Size", "Size",1,min=1,max=25),style="padding-right:2rem") ,
+                      style="display:flex"
+                    )
                       
                     ),
                     
@@ -109,31 +158,67 @@ ui <- fluidPage(theme = shinytheme("superhero"),
                     ),
                     
                     #submit Button
-                    actionButton("submitbutton", "Submit", class = "btn btn-primary")
-                  )
+                    actionButton("submitbutton", "Submit", class = "btn btn-primary"),
+                  ),
+                  
+                  
                   
                   
                 ),
+                  
+                  
+                
                 mainPanel(
                   
-                  conditionalPanel(
-                    condition = "input.submitbutton == 0",
-                    h6("Developed by Yash", align = "right"),
-                  ),
+                  #conditionalPanel(
+                   # condition = "input.submitbutton == 0",
+                  #  h6("Developed by Yash", align = "right"),
+                  #),
                   
+                  conditionalPanel(
+                    
+                    condition = "input.submitbutton > 0",
+                    id = "headData",
+                    tags$div(
+                      tags$h3("Head Of The Data "),
+                    tags$div( tableOutput("contents"))
+                    ),
+                    
+                  ),
                   conditionalPanel(
                     condition = "input.submitbutton > 0",
-                    HTML("<h2>Head of data : </h2>"),
-                    tableOutput("contents"),
+                    id="plotData",
+                    tags$div(
+                    tags$div(
+                        tags$h3("Plot",style="margin-left:9vw;"),
+                        tags$span(plotOutput(outputId = "Plot"), ),
+                        style="width:95vw;"
+                        
+                    ),
+                    tags$div(
+                      tags$span(downloadButton('downloadPlot', 'Download Plot')),
+                      style="padding-top:20vh;"
+                    ),
+                    style="display:flex;width:95vw;"
+                    ),
+                  ),
+                  conditionalPanel(
+                    id="forScroll",
+                    condition = "input.submitbutton >= 0",
+                    tags$div(
+                      tags$h4("Developed by Yashwanth", style="color:black;"),
+                      style="margin-top: 60px;float: left;;"
+                    ),
                     
-                    HTML("<h3>Plot : </h3>"),
-                    plotOutput(outputId = "Plot"),
-                    downloadButton('downloadPlot', 'Download Plot'),
-                    h6("Developed by Yash", align = "right"),
-                  )
+                  ),
                   
                   
-                )
+                ),
+              tags$div(class ="air air1"),
+              tags$div(class ="air air2"),
+              tags$div(class ="air air3"),
+              tags$div(class ="air air4"),
+            )
                 
 )
 
@@ -198,7 +283,8 @@ server <- function(input, output , session) {
           ggplot(Indata())+
             geom_histogram(aes_string(x=param1), color = input$Color, fill = input$B_Fill, bins = input$nb)
           +ggtitle(input$title)+
-            labs(y=input$Y_a , x= input$X_a)
+            labs(y=input$Y_a , x= input$X_a)+
+            theme(text=element_text(size=19))
         )
       }
       
