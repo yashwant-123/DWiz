@@ -257,7 +257,8 @@ server <- function(input, output , session) {
           ggplot(Indata(), aes_string(x = param1, y = param2)) +
             geom_point(color = input$S_Color, size = input$S_Size)+
             ggtitle(input$S_title)+
-            labs(y=input$S_Y_a , x= input$S_X_a)
+            labs(y=input$S_Y_a , x= input$S_X_a)+
+            theme(text=element_text(size=19))
           
         )
         
@@ -273,7 +274,8 @@ server <- function(input, output , session) {
             #To access col of data using string we use data[[colname]]
             scale_x_discrete(limits=Indata()[[param1]])+
             ggtitle(input$title)+
-            labs(y=input$Y_a , x= input$X_a)
+            labs(y=input$Y_a , x= input$X_a)+
+            theme(text=element_text(size=19))
         )
       }
       
@@ -296,7 +298,8 @@ server <- function(input, output , session) {
             #To access col of data using string we use data[[colname]]                          
             scale_x_discrete(limits=Indata()[[param1]])+
             ggtitle(input$B_title)+
-            labs(y=input$B_Y_a , x= input$B_X_a)
+            labs(y=input$B_Y_a , x= input$B_X_a)+
+            theme(text=element_text(size=19))
         )
       }
       
@@ -309,7 +312,8 @@ server <- function(input, output , session) {
             #To access col of data using string we use data[[colname]]
             #scale_x_discrete(limits=Indata()[[param1]])+
             ggtitle(input$L_title)+
-            labs(y=input$L_Y_a , x= input$L_X_a)
+            labs(y=input$L_Y_a , x= input$L_X_a)+
+            theme(text=element_text(size=19))
           
         )
         
@@ -324,7 +328,8 @@ server <- function(input, output , session) {
             geom_bar(stat="identity", width=1, color="white") +
             coord_polar("y", start=0) +
             geom_text(aes(y = lab.ypos, label = Indata()[[param2]]), color = "black")+
-            ggtitle(input$P_title)
+            ggtitle(input$P_title)+
+            theme(text=element_text(size=19))
         )
       }
       
